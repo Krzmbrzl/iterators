@@ -3,5 +3,7 @@
 # <https://github.com/Krzmbrzl/iterators/blob/main/LICENSE>.
 
 add_executable(example example.cpp)
+add_executable(month_iterator month_iterator.cpp)
 
 target_link_libraries(example PRIVATE iterators::iterators)
+target_link_libraries(month_iterator PRIVATE iterators::iterators)

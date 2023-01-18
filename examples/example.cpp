@@ -2,47 +2,56 @@
 // be found in the LICENSE file at the root of the source tree or at
 // <https://github.com/Krzmbrzl/iterators/blob/main/LICENSE>.
 
-#include <iterators/details/core_satisfies_iterator_category.hpp>
 #include <iterators/iterator_facade.hpp>
 
+#include <cstddef>
 #include <iostream>
 #include <iterator>
 
-enum class Month { January, February, March, April, May, June, July, August, September, October, November, December };
-
-class MonthEnumCore {
-public:
+struct MyCore {
+	// Declare what iterator category we are aiming for
 	using target_iterator_category = std::input_iterator_tag;
 
-	MonthEnumCore() = default;
-	MonthEnumCore(Month month) : m_currentMonth(month) {}
-	MonthEnumCore(const MonthEnumCore &) = default;
-	auto operator=(const MonthEnumCore &) -> MonthEnumCore & = default;
+	MyCore(int *ptr) : m_ptr(ptr) {}
+	MyCore(const MyCore &) = default;
+	MyCore(MyCore &&)      = default;
+	~MyCore()              = default;
+	auto operator=(const MyCore &) -> MyCore & = default;
+	auto operator=(MyCore &&) -> MyCore & = default;
 
-	auto dereference() const -> Month { return m_currentMonth; }
+	// Required from forward iterators onwards
+	MyCore() = default;
 
-	void increment() {
-		m_currentMonth = static_cast< Month >(static_cast< std::underlying_type_t< Month > >(m_currentMonth) + 1);
-	}
+	[[nodiscard]] auto dereference() const -> int & { return *m_ptr; }
 
-	void decrement() {
-		m_currentMonth = static_cast< Month >(static_cast< std::underlying_type_t< Month > >(m_currentMonth) - 1);
-	}
+	void increment() { m_ptr += 1; }
 
-	auto equals(const MonthEnumCore &other) const -> bool { return m_currentMonth == other.m_currentMonth; }
+	// Required for all iterator categories except output iterators
+	[[nodiscard]] auto equals(const MyCore &other) const -> bool { return m_ptr == other.m_ptr; }
+
+	// Required only for bidirectional and random access iterators
+	void decrement() { m_ptr -= 1; }
+
+	// Required only for random access iterators
+	[[nodiscard]] auto distance_to(const MyCore &other) const -> std::ptrdiff_t { return other.m_ptr - m_ptr; }
+
+	// Required only for random access iterators
+	void advance(std::ptrdiff_t amount) { m_ptr += amount; }
 
 private:
-	Month m_currentMonth = Month::January;
+	int *m_ptr = nullptr;
 };
 
-using MonthIterator = iterators::iterator_facade< MonthEnumCore >;
+using MyIterator = iterators::iterator_facade< MyCore >;
 
 auto main() -> int {
-	MonthIterator end(Month::December);
-	end++;
-	MonthIterator start(Month::January);
+	int numbers[3] = { 1, 2, 3 };
 
-	for (auto iter = start; iter != end; ++iter) {
-		std::cout << static_cast< int >(*iter) << "\n";
-	}
+	MyIterator iter(MyCore{ numbers });
+
+	std::cout << *iter << "\n";
+	iter++;
+	std::cout << *iter << "\n";
+	++iter;
+	std::cout << *iter << "\n";
 }
