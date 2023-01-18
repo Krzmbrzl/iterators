@@ -89,7 +89,7 @@ int main() {
 
 The following references were very helpful for implementing this library and might be useful for anyone looking into this subject:
 - https://vector-of-bool.github.io/2020/06/13/cpp20-iter-facade.html
-  ([source](https://github.com/vector-of-bool/vector-of-bool.github.io/blob/7597b411d95cc9e5d24158c2eaddabec87f93a59/_posts/2020-06-13-cpp20-iter-facade.md)]
+  ([source](https://github.com/vector-of-bool/vector-of-bool.github.io/blob/7597b411d95cc9e5d24158c2eaddabec87f93a59/_posts/2020-06-13-cpp20-iter-facade.md))
 - [Boost.Iterator source code](https://github.com/boostorg/iterator)
 - https://quuxplusone.github.io/blog/2019/02/06/arrow-proxy/
 - https://cplusplus.com/reference/iterator/
