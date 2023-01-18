@@ -5,6 +5,7 @@
 #ifndef ITERATORS_DETAILS_ARROW_PROXY_HPP_
 #define ITERATORS_DETAILS_ARROW_PROXY_HPP_
 
+#include <memory>
 #include <utility>
 
 namespace iterators::details {
