@@ -1,0 +1,21 @@
+name: Build & Test
+
+on: [push, pull_request]
+
+jobs:
+  build_and_test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-20.04, ubuntu-22.04, windows-2019, windows-2022, macos-11, macos-12]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+            fetch-depth: 1
+
+      - name: Build and test
+        run: mkdir build && cd build && cmake .. && cmake --build . || exit 1
+        shell: bash
