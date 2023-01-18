@@ -5,7 +5,7 @@
 #ifndef ITERATORS_TESTS_TESTCORE_HPP_
 #define ITERATORS_TESTS_TESTCORE_HPP_
 
-#include <cstdint>
+#include <cstddef>
 
 template< typename Category > struct TestCore {
 	using target_iterator_category = Category;
