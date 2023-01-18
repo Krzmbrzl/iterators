@@ -36,33 +36,33 @@ iterator's _Core_. This contains the iterator's state as well as functions that 
 #include <iterator>
 
 struct MyCore {
-	// Declare what iterator category we are aiming for
-	using  target_iterator_category = std::input_iterator_tag;
+    // Declare what iterator category we are aiming for
+    using  target_iterator_category = std::input_iterator_tag;
 
-	// These functions are required for all iterator cores
+    // These functions are required for all iterator cores
 
-	MyCore(int *ptr) : m_ptr(ptr) {}
-	MyCore(const MyCore &) = default;
-	MyCore &operator=(const MyCore &) = default;
+    MyCore(int *ptr) : m_ptr(ptr) {}
+    MyCore(const MyCore &) = default;
+    MyCore &operator=(const MyCore &) = default;
 
-	int &dereference() const { return *m_ptr; }
+    int &dereference() const { return *m_ptr; }
 
-	void increment() { m_ptr += 1; }
+    void increment() { m_ptr += 1; }
 
-	// Required from forward iterators onwards
-	MyCore() = default;
+    // Required from forward iterators onwards
+    MyCore() = default;
 
-	// Required for all iterator categories except output iterators
-	bool equals(const MyCore &other) const { return m_ptr == other.m_ptr; }
+    // Required for all iterator categories except output iterators
+    bool equals(const MyCore &other) const { return m_ptr == other.m_ptr; }
 
-	// Required only for bidirectional and random access iterators
-	void decrement() { m_ptr -= 1; }
+    // Required only for bidirectional and random access iterators
+    void decrement() { m_ptr -= 1; }
 
-	// Required only for random access iterators
-	std::ptrdiff_t distance_to(const MyCore &other) const { return other.m_ptr - m_ptr; }
+    // Required only for random access iterators
+    std::ptrdiff_t distance_to(const MyCore &other) const { return other.m_ptr - m_ptr; }
 
-	// Required only for random access iterators
-	void advance(std::ptrdiff_t amount) { m_ptr += amount; }
+    // Required only for random access iterators
+    void advance(std::ptrdiff_t amount) { m_ptr += amount; }
 
 private:
     int * m_ptr = nullptr;
@@ -71,17 +71,17 @@ private:
 using MyIterator = iterators::iterator_facade< MyCore >;
 
 int main() {
-	int numbers[3] = { 1, 2, 3 };
+    int numbers[3] = { 1, 2, 3 };
 
-	MyIterator iter(MyCore{numbers});
+    MyIterator iter(MyCore{numbers});
 
-	std::cout << *iter << "\n";
-	iter++;
-	std::cout << *iter << "\n";
-	++iter;
-	std::cout << *iter << "\n";
+    std::cout << *iter << "\n";
+    iter++;
+    std::cout << *iter << "\n";
+    ++iter;
+    std::cout << *iter << "\n";
 
-	return 0;
+    return 0;
 }
 ```
 
