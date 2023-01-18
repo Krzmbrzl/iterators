@@ -36,3 +36,6 @@
 
 # build dir
 build/
+
+# Compile command database
+compile_commands.json
